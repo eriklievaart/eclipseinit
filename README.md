@@ -1,6 +1,6 @@
 # projectlink
 Eclipse plugin for linking projects to workspaces.
-When starting eclipse, this plugin checks a config file and adds any missing project to the workspace.
+When starting eclipse, this plugin checks a config file and adds any missing projects to the workspace.
 
 This plugin is extremely basic and you will probably want to modify the source code before use.
 When eclipse starts, this plugin reads the following file:
