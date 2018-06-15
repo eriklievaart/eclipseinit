@@ -10,8 +10,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.swing.JOptionPane;
-
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.resources.IWorkspace;
@@ -24,13 +22,17 @@ public class InstallProjects implements org.eclipse.ui.IStartup {
 
 	@Override
 	public void earlyStartup() {
+		createProjects();
+	}
+
+	private void createProjects() {
 		IWorkspace workspace = ResourcesPlugin.getWorkspace();
-		
 		Set<String> available = getInstalledProjects(workspace.getRoot());
-		List<String> created = createProjects(workspace, available);
 		
-		if(!created.isEmpty()) {
-			JOptionPane.showMessageDialog(null, "created projects: " + created);
+		for (String required : getRequiredProjects(getName(workspace))) {
+			if (!available.contains(required)) {
+				createProject(workspace, required);
+			}
 		}
 	}
 
@@ -41,17 +43,6 @@ public class InstallProjects implements org.eclipse.ui.IStartup {
 		}
 		return set;
 	} 
-
-	private List<String> createProjects(IWorkspace workspace, Set<String> skip) {
-		List<String> created = new ArrayList<>();
-		for (String required : getRequiredProjects(getName(workspace))) {
-			if (!skip.contains(required)) {
-				createProject(workspace, required);
-				created.add(required);
-			}
-		}
-		return created;
-	}
 
 	private String getName(IWorkspace workspace) {
 		return workspace.getRoot().getLocation().lastSegment();
