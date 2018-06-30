@@ -1,9 +1,14 @@
 # projectlink
-Eclipse plugin for linking projects to workspaces.
-When starting eclipse, this plugin checks a config file and adds any missing projects to the workspace.
+Eclipse plugin for initializing workspaces.
+When starting eclipse for the first time, it loads global eclipse preferences from an epf file.
+The java perspective and debug perspective are openened and all the views I rarely use are closed.
+The plugin also checks a config file and adds any missing projects to the workspace on every startup.
 
-This plugin is extremely basic and you will probably want to modify the source code before use.
-When eclipse starts, this plugin reads the following file:
+Preferences are loaded from the following file:
+
+[user_home]/Development/git/ws/main/static/eclipse/oxygen.epf
+
+Workspaces are read from the following file:
 
 [user_home]/Development/git/ws/main/static/workspaces.txt
 
@@ -13,7 +18,7 @@ Each project is expected to have a .project file in
 
 [user_home]/Development/project/[project_name]/.project
 
-That's all it does.
+
 
 
 ### Editing / Building the plugin
