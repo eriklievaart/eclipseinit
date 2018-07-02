@@ -1,7 +1,6 @@
 # projectlink
 Eclipse plugin for initializing workspaces.
 When starting eclipse for the first time, it loads global eclipse preferences from an epf file.
-The java perspective and debug perspective are openened and all the views I rarely use are closed.
 The plugin also checks a config file and adds any missing projects to the workspace on every startup.
 
 Preferences are loaded from the following file:

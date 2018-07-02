@@ -4,6 +4,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.util.Map;
 
+import org.eclipse.core.resources.IncrementalProjectBuilder;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.preferences.ConfigurationScope;
 import org.eclipse.core.runtime.preferences.IExportedPreferences;
@@ -11,6 +14,8 @@ import org.eclipse.core.runtime.preferences.IPreferenceFilter;
 import org.eclipse.core.runtime.preferences.IPreferencesService;
 import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.eclipse.core.runtime.preferences.PreferenceFilterEntry;
+import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.PlatformUI;
 
 import eclipseinit.util.WsPaths;
 
@@ -31,6 +36,19 @@ public class EclipsePreferences {
 				return null;
 			}
 		};
-		service.applyPreferences(prefs, new IPreferenceFilter[] { filter });
+		final IWorkbench workbench = PlatformUI.getWorkbench();
+
+		workbench.getDisplay().asyncExec(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					service.applyPreferences(prefs, new IPreferenceFilter[] { filter });
+					ResourcesPlugin.getWorkspace().build(IncrementalProjectBuilder.CLEAN_BUILD, null);
+
+				} catch (CoreException e) {
+					throw new RuntimeException(e);
+				}
+			}
+		});
 	}
 }
