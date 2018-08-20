@@ -6,9 +6,7 @@ public class StartupJobs implements org.eclipse.ui.IStartup {
 	public void earlyStartup() {
 		try {
 			EclipseInfo info = new EclipseInfo();
-			if (info.installedProjects.isEmpty()) {
-				EclipsePreferences.init();
-			}
+			EclipsePreferences.init();
 			new ProjectInstaller().createProjects(info);
 
 		} catch (Exception e) {
